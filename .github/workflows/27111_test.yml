@@ -12,8 +12,7 @@ jobs:
       - name: Preveri obstoj testne datoteke
         run: |
           if [ ! -f test.py ]; then
-            echo ls > napaka.txt
-            exit 1
+            ls > napaka.txt
           fi
         continue-on-error: true
 
