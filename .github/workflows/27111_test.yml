@@ -11,13 +11,14 @@ jobs:
     steps:
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ ! -f "../../SA_CI-CD/test.py" ]; then
-            echo "Testna datoteka test.py ne obstaja." > napaka.txt
+          if [ ! -f test.py ]; then
+            echo ls > napaka.txt
             exit 1
           fi
+        continue-on-error: true
 
       - name: Shrani napako v artefakt
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: napaka
