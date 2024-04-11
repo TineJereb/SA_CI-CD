@@ -11,9 +11,8 @@ jobs:
     steps:
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ -f napaka.txt ]; then
-            cat napaka.txt
-            exit 1
+          if [ ! -f /test.py ]; then
+            echo "Testna datoteka test.py ne obstaja." > napaka.txt
           fi
         id: check_test_file
 
