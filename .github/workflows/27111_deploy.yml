@@ -17,6 +17,11 @@ jobs:
     steps:
       - name: Checkout repozitorija
         uses: actions/checkout@v2
+
+      - name: Namesti Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io -y
       
       - name: Prijava v Docker
         run: |
