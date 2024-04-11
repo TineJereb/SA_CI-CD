@@ -11,8 +11,9 @@ jobs:
     steps:
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ ! -f test.py ]; then
-            echo "Testna datoteka test.py ne obstaja." > napaka.txt
+          if [ -f napaka.txt ]; then
+            cat napaka.txt
+            exit 1
           fi
         id: check_test_file
 
@@ -27,7 +28,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-        python-version: [3.12.2]
+        python-version: [3.12.2, 3.12.1]
     
     needs: preveri_obstoj_testne_datoteke
     steps:
@@ -49,7 +50,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       
 
-      - name: Pripravi izvajalno okolje za teste
+      - name: Namesti odvisnosti
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
