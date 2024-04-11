@@ -42,7 +42,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: napaka
-          path: napaka.txt
+          path: .
 
       - name: Preveri obstoj napake
         run: |
