@@ -14,18 +14,16 @@ jobs:
 
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ ! -f tesht.py ]; then
-            echo "Testna datoteka ne obstaja." > napaka.txt
+          if [ ! -f test.py ]; then
+            echo "Testna datoteka test.py ne obstaja." > napaka.txt
           fi
         
-
       - name: Shrani napako v artefakt
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: napaka
-          path: ./napaka.txt
-
+          path: napaka.txt
 
   izvedi_teste:
     runs-on: self-hosted
@@ -50,18 +48,16 @@ jobs:
             cat napaka.txt
             exit 1
           fi
-
+          
       - name: Nastavi Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       
-
       - name: Namesti odvisnosti
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-
       - name: Izvedi teste
         run: pytest test.py
