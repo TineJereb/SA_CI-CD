@@ -40,7 +40,7 @@ jobs:
 
       - name: Preveri obstoj napake
         run: |
-          if [ -f /napaka.txt ]; then
+          if [ -f napaka.txt ]; then
             cat napaka.txt
             exit 1
           fi
