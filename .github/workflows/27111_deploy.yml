@@ -4,7 +4,6 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   REPONAME: ${{ secrets.REPO_NAME }}
-
 on:
   workflow_run:
     workflows: ["Testiranje kode"]
@@ -33,7 +32,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.REPONAME }}:${{ steps.datum.outputs.date }}
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ steps.datum.outputs.date }}
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
