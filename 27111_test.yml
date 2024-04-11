@@ -1,4 +1,4 @@
-name: Testiranje
+name: Testiranje kode
 
 on:
   push:
@@ -6,51 +6,47 @@ on:
       - main
 
 jobs:
-  check_tests:
+  preveri_obstoj_testne_datoteke:
     runs-on: self-hosted
     steps:
-    - name: Checkout kodo
-      uses: actions/checkout@v2
+      - name: Preveri obstoj testne datoteke
+        run: |
+          if [ ! -f test.py ]; then
+            echo "Testna datoteka test.py ne obstaja." > napaka.txt
+          fi
+        id: check_test_file
 
-    - name: Preveri obstoj testnih skript
-      run: |
-        if [ -f test.py ]; then
-          echo "Testne skripte obstajajo."
-        else
-          echo "Napaka: Testne skripte manjkajo." > napaka.txt
-          exit 1
-        fi
-      continue-on-error: true
-      # Shranimo izhod v datoteko "napaka.txt"
-      # Če testne skripte ne obstajajo, prenehamo izvajanje z exit kodo 1, sicer nadaljujemo
+      - name: Shrani napako v artefakt
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: napaka
+          path: napaka.txt
 
-    - name: Upload napake
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: napaka
-        path: napaka.txt
-
-  run_tests:
-    needs: check_tests
+  izvedi_teste:
     runs-on: self-hosted
+    needs: preveri_obstoj_testne_datoteke
     steps:
-    - name: Checkout kodo
-      uses: actions/checkout@v2
+      - name: Preberi napako iz artefakta
+        uses: actions/download-artifact@v2
+        with:
+          name: napaka
+          path: .
 
-    - name: Pripravi izvajalno okolje
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-opencv
-        python -m pip install --upgrade pip
-        pip install numpy numba
+      - name: Preveri obstoj napake
+        run: |
+          if [ -f napaka.txt ]; then
+            cat napaka.txt
+            exit 1
+          fi
 
-    - name: Izvedi teste
-      run: |
-        pytest test.py
+      - name: Pripravi izvajalno okolje za teste
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-opencv
+          python -m pip install --upgrade pip
+          pip install numpy numba
 
-    - name: Upload rezultatov
-      uses: actions/upload-artifact@v2
-      with:
-        name: testni-rezultati
-        path: test-reports/
+      - name: Izvedi teste
+        run: |
+          python test.py
