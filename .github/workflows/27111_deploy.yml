@@ -32,11 +32,13 @@ jobs:
         id: datum
         run: echo "date=$(date +'%Y-%m-%d--%M-%S')" >> "$GITHUB_ENV"
       
-      - name: Zgradi docker sliko
-        run: |
-          echo ${{ steps.datum.outputs.date }}
-          echo "docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPONAME:$date"
-          docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPONAME:$date
+      - name: Gradnja Docker slike
+        run: sudo docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPONAME:${{ env.date }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          REPONAME: ${{ secrets.REPO_NAME }}
+          date: ${{ steps.datum.outputs.date }}
 
       - name: Potisni docker sliko
         run: |
