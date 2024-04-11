@@ -9,7 +9,9 @@ jobs:
   preveri_obstoj_testne_datoteke:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Preveri obstoj testne datoteke
         run: |
           if [ ! -f test.py ]; then
@@ -18,7 +20,7 @@ jobs:
           fi
 
       - name: Shrani napako v artefakt
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: napaka
