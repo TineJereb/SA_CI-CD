@@ -25,6 +25,10 @@ jobs:
 
   izvedi_teste:
     runs-on: self-hosted
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9]
+    
     needs: preveri_obstoj_testne_datoteke
     steps:
       - name: Preberi napako iz artefakta
@@ -39,6 +43,11 @@ jobs:
             cat napaka.txt
             exit 1
           fi
+      - name: Nastavi Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      
 
       - name: Pripravi izvajalno okolje za teste
         run: |
