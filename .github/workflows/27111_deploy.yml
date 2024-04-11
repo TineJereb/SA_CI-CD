@@ -20,10 +20,6 @@ jobs:
       - name: Checkout repozitorija
         uses: actions/checkout@v2
 
-      - name: Namesti Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install docker.io -y
       
       - name: Prijava v Docker
         run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
