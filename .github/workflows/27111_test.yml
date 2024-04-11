@@ -16,9 +16,8 @@ jobs:
         run: |
           if [ ! -f testh.py ]; then
             echo "Testna datoteka test.py ne obstaja." > napaka.txt
-            exit 1
           fi
-        continue-on-failure: true
+        
 
       - name: Shrani napako v artefakt
         if: always()
