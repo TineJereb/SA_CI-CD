@@ -11,13 +11,13 @@ jobs:
     steps:
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ ! -f test.py ]; then
-            ls > napaka.txt
+          echo $pwd
+          if [ ! -f /test.py ]; then
+            echo "Testna datoteka test.py ne obstaja." > napaka.txt
           fi
-        continue-on-error: true
 
       - name: Shrani napako v artefakt
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: napaka
@@ -39,7 +39,7 @@ jobs:
 
       - name: Preveri obstoj napake
         run: |
-          if [ -f napaka.txt ]; then
+          if [ -f /napaka.txt ]; then
             cat napaka.txt
             exit 1
           fi
