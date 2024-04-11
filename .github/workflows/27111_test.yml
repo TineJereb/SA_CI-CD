@@ -13,10 +13,12 @@ jobs:
         run: |
           if [ -f /test.py ]; then
             echo "Testna datoteka test.py ne obstaja." > napaka.txt
+            exit 1
           fi
+        continue-on-error: true
 
       - name: Shrani napako v artefakt
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: napaka
