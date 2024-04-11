@@ -10,7 +10,7 @@ def test_kmeans():
     # Testiranje funkcije kmeans
     image = np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8)  # Naključna slika
     segmented_image = kmeans(image, 5, 10, 3)  # Preverimo delovanje funkcije
-    assert segmented_image.shape == image.shape  # Preverimo, ali je izhodna slika enake oblike kot vhodna
+    assert segmented_image.shape == image.shape  # Preverimo, ali je izhodna slika enake oblike kot vhodnaa
 
 def test_meanshift():
     # Testiranje funkcije meanshift
