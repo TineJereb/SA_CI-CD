@@ -27,6 +27,7 @@ jobs:
           name: napaka
           path: test.py
 
+
   izvedi_teste:
     runs-on: self-hosted
     strategy:
