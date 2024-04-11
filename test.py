@@ -1,5 +1,9 @@
-import cv2
 import numpy as np
+import math
+import cv2
+import numba
+from numba import jit
+from numba import prange
 from naloga3 import kmeans, meanshift
 
 def test_kmeans():
