@@ -1,0 +1,39 @@
+name: Docker Deploy
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  REPONAME: ${{ secrets.REPO_NAME }}
+
+on:
+  workflow_run:
+    workflows: ["Testiranje kode"]
+    types:
+      - completed
+    status:
+      success
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repozitorija
+        uses: actions/checkout@v2
+
+      - name: Trenutni čas
+        id: datum
+        run: echo "date=$(date +'%Y-%m-%d--%M-%S')" >> "$GITHUB_ENV"
+
+      - name: Priprava Docker okolja
+        uses: docker/setup-buildx-action@v1
+
+      - name: Gradnja in potisnitev na Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.REPONAME }}:${{ steps.datum.outputs.date }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
