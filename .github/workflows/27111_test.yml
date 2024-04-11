@@ -18,7 +18,7 @@ jobs:
           fi
 
       - name: Shrani napako v artefakt
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: napaka
