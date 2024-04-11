@@ -62,4 +62,4 @@ jobs:
           
 
       - name: Izvedi teste
-        run: pytest
+        run: pytest test.py
