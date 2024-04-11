@@ -22,8 +22,9 @@ jobs:
 
       
       - name: Prijava v Docker
-        run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
+        run: |
+          sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          sudo usermod -aG docker runner
 
       - name: Trenutni čas
         id: datum
