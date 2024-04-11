@@ -14,7 +14,7 @@ jobs:
 
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ ! -f testh.py ]; then
+          if [ ! -f test.py ]; then
             echo "Testna datoteka test.py ne obstaja." > napaka.txt
           fi
         
