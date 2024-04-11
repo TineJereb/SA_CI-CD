@@ -27,7 +27,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-        python-version: [3.12.2, 3.12.1]
+        python-version: [3.12.2]
     
     needs: preveri_obstoj_testne_datoteke
     steps:
