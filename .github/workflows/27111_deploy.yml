@@ -3,7 +3,7 @@ name: Docker Deploy
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  REPONAME: ${{ secrets.REPO_NAME }}
+  REPO_NAME: ${{ secrets.REPO_NAME }}
 on:
   workflow_run:
     workflows: ["Testiranje kode"]
@@ -32,9 +32,9 @@ jobs:
       - name: Zgradi docker sliko
         run: |
           echo ${{ steps.datum.outputs.date }}
-          echo "docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPONAME:$date"
-          docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPONAME:$date
+          echo "docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPO_NAME:$date"
+          docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPO_NAME:$date
 
       - name: Potisni docker sliko
         run: |
-          docker push $DOCKER_USERNAME/$REPONAME:$date
+          docker push $DOCKER_USERNAME/$REPO_NAME:$date
