@@ -1,0 +1,56 @@
+name: Testiranje
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_tests:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout kodo
+      uses: actions/checkout@v2
+
+    - name: Preveri obstoj testnih skript
+      run: |
+        if [ -f test.py ]; then
+          echo "Testne skripte obstajajo."
+        else
+          echo "Napaka: Testne skripte manjkajo." > napaka.txt
+          exit 1
+        fi
+      continue-on-error: true
+      # Shranimo izhod v datoteko "napaka.txt"
+      # Če testne skripte ne obstajajo, prenehamo izvajanje z exit kodo 1, sicer nadaljujemo
+
+    - name: Upload napake
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: napaka
+        path: napaka.txt
+
+  run_tests:
+    needs: check_tests
+    runs-on: self-hosted
+    steps:
+    - name: Checkout kodo
+      uses: actions/checkout@v2
+
+    - name: Pripravi izvajalno okolje
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-opencv
+        python -m pip install --upgrade pip
+        pip install numpy numba
+
+    - name: Izvedi teste
+      run: |
+        pytest test.py
+
+    - name: Upload rezultatov
+      uses: actions/upload-artifact@v2
+      with:
+        name: testni-rezultati
+        path: test-reports/

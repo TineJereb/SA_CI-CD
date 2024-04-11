@@ -27,7 +27,6 @@ def kmeans(image, k, iterations, dimenzija_centra):
     centers = izracunaj_centre(image, izbira, dimenzija_centra, k, T=20)
     centers = [np.array(center, dtype=np.float64) for center in centers]
 
-    print(centers)
     segmented_image = np.zeros_like(image)
     pixel_counts = np.zeros((k,), dtype=np.int32)
     center_sums = np.zeros((k, dimenzija_centra), dtype=np.float64)
@@ -75,42 +74,6 @@ def kmeans(image, k, iterations, dimenzija_centra):
 
     return segmented_image
 
-# delujoč za 3d
-@jit(nopython=True)
-def meanshift_(image, h, dimension,radius, max_iterations=100, convergence=0.001):
-    rows, cols, _ = image.shape
-    shifted_image = np.zeros_like(image)
-
-    for i in prange(rows):
-        for j in prange(cols):
-            current_point = image[i, j].astype(np.float32)
-            iterations = 0
-
-            while iterations < max_iterations:
-                new_point = np.zeros_like(current_point)
-                total_weight = 0.0
-
-                for m in range(max(0, i - radius), min(rows, i + radius + 1)):
-                    for n in range(max(0, j - radius), min(cols, j + radius + 1)):
-                        neighbor_point = image[m, n]
-                        distance = euclidean_distance(current_point, neighbor_point,dimension)
-                        weight = jedro(distance, h)
-
-                        new_point += weight * neighbor_point
-                        total_weight += weight
-
-                new_point /= total_weight
-                
-                if euclidean_distance(current_point, new_point,dimension) < convergence:
-                    break
-
-                current_point = new_point
-                iterations += 1
-
-            shifted_image[i, j] = current_point
-
-    return shifted_image
-
 
 @jit(nopython=True)
 def meanshift(image, h, dimension,radius, max_iterations=10, convergence=0.0001):
@@ -143,7 +106,6 @@ def meanshift(image, h, dimension,radius, max_iterations=10, convergence=0.0001)
 
                         distance = euclidean_distance(current_point, neighbor_point,dimension)
                         weight = jedro(distance, h)
-                        print(weight)
 
                         new_point += weight * neighbor_point
                         total_weight += weight
@@ -233,7 +195,6 @@ def jedro(u, h):
 
 
 if __name__ == "__main__":
-    
     
     # Load the image
     image_original = cv2.imread("zelenjava.jpg")
