@@ -9,11 +9,12 @@ jobs:
   preveri_obstoj_testne_datoteke:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
       - name: Preveri obstoj testne datoteke
         run: |
-          echo $pwd
-          if [ ! -f /test.py ]; then
+          if [ ! -f test.py ]; then
             echo "Testna datoteka test.py ne obstaja." > napaka.txt
+            exit 1
           fi
 
       - name: Shrani napako v artefakt
