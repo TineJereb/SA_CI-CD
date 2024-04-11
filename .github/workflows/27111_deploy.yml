@@ -26,8 +26,11 @@ jobs:
           sudo apt-get install docker.io -y
       
       - name: Prijava v Docker
-        run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 
       - name: Trenutni čas
         id: datum
