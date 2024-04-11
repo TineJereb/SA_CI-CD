@@ -14,8 +14,8 @@ jobs:
 
       - name: Preveri obstoj testne datoteke
         run: |
-          if [ ! -f test.py ]; then
-            echo "Testna datoteka ne obstaja." > napaka.txt
+          if [ ! -f testh.py ]; then
+            echo "Testna datoteka test.py ne obstaja." > napaka.txt
           fi
         
 
@@ -42,7 +42,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: napaka
-          path: .
+          path: napaka.txt
 
       - name: Preveri obstoj napake
         run: |
