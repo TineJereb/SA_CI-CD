@@ -15,7 +15,6 @@ jobs:
             echo "Testna datoteka test.py ne obstaja." > napaka.txt
             exit 1
           fi
-        continue-on-error: true
 
       - name: Shrani napako v artefakt
         if: failure()
