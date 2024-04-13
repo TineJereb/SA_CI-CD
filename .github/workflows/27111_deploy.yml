@@ -9,8 +9,7 @@ on:
     workflows: ["Testiranje kode"]
     types:
       - completed
-    status:
-      - success
+
 
 
 jobs:
