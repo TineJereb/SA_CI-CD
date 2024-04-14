@@ -2,4 +2,3 @@ opencv-python
 numpy
 numba
 pytest
-libgl1-mesa-glx
