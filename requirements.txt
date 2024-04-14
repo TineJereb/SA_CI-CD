@@ -2,3 +2,4 @@ opencv-python
 numpy
 numba
 pytest
+libGL.so.1
