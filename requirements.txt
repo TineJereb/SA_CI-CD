@@ -2,4 +2,5 @@ opencv-python
 numpy
 numba
 pytest
-libGL.so.1
+build-essential
+libgl1-mesa-glx
