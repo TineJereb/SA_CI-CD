@@ -20,21 +20,12 @@ jobs:
       - name: Checkout repozitorija
         uses: actions/checkout@v2
 
-      
-      - name: Prijava v Docker
+      - name: Zapakiraj
         run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD docker.io
+          chmod +x zapakiraj_27111.sh
+          ./zapakiraj_27111.sh
 
-      - name: Trenutni čas
-        id: datum
-        run: echo "date=$(date +'%Y-%m-%d--%M-%S')" >> "$GITHUB_ENV"
-      
-      - name: Zgradi docker sliko
+      - name: Zazeni Docker kontejner
         run: |
-          echo ${{ steps.datum.outputs.date }}
-          echo "docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPO_NAME:$date"
-          docker build . --file Dockerfile --tag $DOCKER_USERNAME/$REPO_NAME:$date
-
-      - name: Potisni docker sliko
-        run: |
-          docker push $DOCKER_USERNAME/$REPO_NAME:$date
+          chmod +x zazeni_27111.sh
+          ./zazeni_27111.sh
